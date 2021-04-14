@@ -4,7 +4,7 @@ import { ChildHandshake, Connection, WindowMessenger } from "post-me";
 import { IContentInfo, IIndex, IPage, IContentPersistence, INewContentPersistence, EntryType, IDACResponse, IDictionary, IContentRecordDAC, IFilePaths } from "./types";
 
 // DAC consts
-const DATA_DOMAIN = "crqa.hns";
+const DATA_DOMAIN = "graio.hns";
 
 const urlParams = new URLSearchParams(window.location.search);
 const DEBUG_ENABLED = urlParams.get('debug') === "true";
@@ -99,10 +99,10 @@ export default class ContentRecordDAC implements IContentRecordDAC {
 
   // recordNewContent will record the new content creation in the content record
   public async recordNewContent(...data: IContentInfo[]): Promise<IDACResponse> {
-    try { 
+    try {
       // purposefully not awaited
       this.handleNewEntries(EntryType.NEWCONTENT, ...data)
-    } catch(error) {
+    } catch (error) {
       this.log('Error occurred trying to record new content, err: ', error)
     }
     return { submitted: true }
@@ -113,8 +113,8 @@ export default class ContentRecordDAC implements IContentRecordDAC {
     try {
       // purposefully not awaited
       this.handleNewEntries(EntryType.INTERACTIONS, ...data)
-    } catch(error) {
-      this.log('Error occurred trying to record interaction, err: ', error) 
+    } catch (error) {
+      this.log('Error occurred trying to record interaction, err: ', error)
     };
     return { submitted: true }
   }
@@ -172,11 +172,11 @@ export default class ContentRecordDAC implements IContentRecordDAC {
     const indexPath = kind === EntryType.NEWCONTENT
       ? this.paths.NC_INDEX_PATH
       : this.paths.CI_INDEX_PATH;
-  
+
     const pagePath = kind === EntryType.NEWCONTENT
       ? this.paths.NC_PAGE_PATH
       : this.paths.CI_PAGE_PATH;
-    
+
     index.currPageNumEntries = page.entries.length
 
     // rotate pages if necessary
@@ -196,7 +196,7 @@ export default class ContentRecordDAC implements IContentRecordDAC {
     const indexPath = kind === EntryType.NEWCONTENT
       ? this.paths.NC_INDEX_PATH
       : this.paths.CI_INDEX_PATH;
-    
+
     const firstPagePath = kind === EntryType.NEWCONTENT
       ? this.paths.NC_PAGE_PATH.replace(PAGE_REF, String(0))
       : this.paths.CI_PAGE_PATH.replace(PAGE_REF, String(0));
@@ -224,7 +224,7 @@ export default class ContentRecordDAC implements IContentRecordDAC {
     const pagePath = kind === EntryType.NEWCONTENT
       ? this.paths.NC_PAGE_PATH
       : this.paths.CI_PAGE_PATH;
-    
+
     const currPageStr = String(index.currPageNumber)
     const currPagePath = pagePath.replace(PAGE_REF, currPageStr);
 
@@ -281,7 +281,7 @@ export default class ContentRecordDAC implements IContentRecordDAC {
     if (persistence.metadata === undefined) {
       persistence.metadata = {};
     }
-    
+
     // validate the given data does not exceed max size
     const size = Buffer.from(JSON.stringify(persistence)).length
     if (size > ENTRY_MAX_SIZE) {
