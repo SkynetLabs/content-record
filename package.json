@@ -4,7 +4,8 @@
   "description": "",
   "main": "src/index.ts",
   "scripts": {
-    "build": "rm dist/main.js && npx webpack",
+    "build": "rm -r dist && cp -R html dist && npx webpack",
+    "lint": "npm run lint:tsc && npm run lint:eslint",
     "lint:eslint": "eslint --ext .ts src",
     "lint:tsc": "tsc --noemit",
     "start": "webpack serve --open",
