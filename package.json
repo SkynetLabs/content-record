@@ -12,11 +12,11 @@
     "watch": "webpack --watch"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "buffer": "^6.0.3",
     "post-me": "^0.4.5",
-    "skynet-js": "^3.0.2"
+    "skynet-js": "^4.0.0-beta"
   },
   "devDependencies": {
     "@types/jest": "^26.0.22",

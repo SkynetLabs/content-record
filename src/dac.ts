@@ -53,7 +53,7 @@ export default class ContentRecordDAC implements IContentRecordDAC {
         remoteWindow: window.parent,
         remoteOrigin: "*",
       }),
-      methods
+      methods,
     );
   }
 
