@@ -192,7 +192,7 @@ export default class ContentRecordDAC implements IContentRecordDAC {
 
   // fetchIndex downloads the index, if the index does not exist yet it will
   // return the default index.
-  private async fetchIndex(kind: EntryType): Promise<IIndex> {
+  private async fetchIndex(kind: EntryType, updateIfNotExists: boolean = false): Promise<IIndex> {
     const indexPath = kind === EntryType.NEWCONTENT
       ? this.paths.NC_INDEX_PATH
       : this.paths.CI_INDEX_PATH;
@@ -210,13 +210,16 @@ export default class ContentRecordDAC implements IContentRecordDAC {
         pages: [firstPagePath],
         pageSize: INDEX_DEFAULT_PAGE_SIZE,
       }
+      if (updateIfNotExists) {
+        await this.updateFile(indexPath, index)
+      }
     }
     return index;
   }
 
   // fetchPage downloads the current page for given index, if the page does not
   // exist yet it will return the default page.
-  private async fetchPage<T>(kind: EntryType, index: IIndex): Promise<IPage<T>> {
+  private async fetchPage<T>(kind: EntryType, index: IIndex, updateIfNotExists: boolean = false): Promise<IPage<T>> {
     const indexPath = kind === EntryType.NEWCONTENT
       ? this.paths.NC_INDEX_PATH
       : this.paths.CI_INDEX_PATH;
@@ -235,6 +238,9 @@ export default class ContentRecordDAC implements IContentRecordDAC {
         indexPath,
         pagePath: currPagePath,
         entries: [],
+      }
+      if (updateIfNotExists) {
+        await this.updateFile(currPagePath, page);
       }
     }
     return page
@@ -265,9 +271,10 @@ export default class ContentRecordDAC implements IContentRecordDAC {
   // interacts with the DAC, seeing as non existing file requests time out only
   // after a certain amount of time.
   private async ensureFileHierarchy(): Promise<void> {
+    const updateIfNotExists = true;
     for (const entryType of [EntryType.NEWCONTENT, EntryType.INTERACTIONS]) {
-      const index = await this.fetchIndex(entryType)
-      await this.fetchPage(entryType, index)
+      const index = await this.fetchIndex(entryType, updateIfNotExists)
+      await this.fetchPage(entryType, index, updateIfNotExists)
     }
   }
 
