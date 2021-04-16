@@ -9,7 +9,7 @@
     "outDir": "dist",
     "types": ["jest", "node"],
     "typeRoots": ["./types", "./node_modules/@types"],
-    "strictPropertyInitialization": false,
+    "strictPropertyInitialization": false
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "**/*.spec.ts"]
