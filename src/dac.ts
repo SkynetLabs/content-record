@@ -4,7 +4,7 @@ import { ChildHandshake, Connection, WindowMessenger } from "post-me";
 import { IContentInfo, IIndex, IPage, IContentPersistence, INewContentPersistence, EntryType, IDACResponse, IDictionary, IContentRecordDAC, IFilePaths } from "./types";
 
 // DAC consts
-const DATA_DOMAIN = "graio.hns";
+const DATA_DOMAIN = "crqa.hns";
 
 const urlParams = new URLSearchParams(window.location.search);
 const DEBUG_ENABLED = urlParams.get('debug') === "true";
