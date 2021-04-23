@@ -31,7 +31,9 @@ export default class ContentRecordDAC implements IContentRecordDAC {
   private client: SkynetClient
   private mySky: MySky;
   private paths: IFilePaths;
+
   private skapp: string;
+  private hostname: string;
 
   public constructor(
   ) {
@@ -59,12 +61,12 @@ export default class ContentRecordDAC implements IContentRecordDAC {
 
   public async init() {
     try {
-      // extract the skappname and use it to set the filepaths
-      const hostname = new URL(document.referrer).hostname
-      const skapp = await this.client.extractDomain(hostname)
-      this.log("loaded from skapp", skapp)
-      this.skapp = skapp;
+      // extract hostname and skapp domain and use it to set the filepaths
+      this.hostname = new URL(document.referrer).hostname
+      this.skapp = await this.client.extractDomain(this.hostname)
+      this.log("loaded from skapp", this.skapp)
 
+      const { skapp } = this
       this.paths = {
         SKAPPS_DICT_PATH: `${DATA_DOMAIN}/skapps.json`,
         NC_INDEX_PATH: `${DATA_DOMAIN}/${skapp}/newcontent/index.json`,
@@ -123,12 +125,14 @@ export default class ContentRecordDAC implements IContentRecordDAC {
   // registered in the skapp name dictionary.
   private async registerSkappName() {
     const { SKAPPS_DICT_PATH } = this.paths;
-    let skapps = await this.downloadFile<IDictionary>(SKAPPS_DICT_PATH);
+    let skapps = await this.downloadFile<IDictionary<string>>(SKAPPS_DICT_PATH);
     if (!skapps) {
       skapps = {};
     }
-    skapps[this.skapp] = true;
-    await this.updateFile(SKAPPS_DICT_PATH, skapps);
+    if (!skapps[this.skapp]) {
+      skapps[this.skapp] = this.hostname;
+      await this.updateFile(SKAPPS_DICT_PATH, skapps);
+    }
   }
 
   // handleNewEntries is called by both 'recordNewContent' and
