@@ -1,5 +1,5 @@
 import { Buffer } from "buffer"
-import { SkynetClient, MySky, JsonData } from "skynet-js";
+import { SkynetClient, MySky, JsonData, parseSkylink } from "skynet-js";
 import { ChildHandshake, Connection, WindowMessenger } from "post-me";
 import { IContentInfo, IIndex, IPage, IContentPersistence, INewContentPersistence, EntryType, IDACResponse, IDictionary, IContentRecordDAC, IFilePaths } from "./types";
 
@@ -35,8 +35,7 @@ export default class ContentRecordDAC implements IContentRecordDAC {
   private skapp: string;
   private hostname: string;
 
-  public constructor(
-  ) {
+  public constructor() {
     // create client
     this.client = new SkynetClient();
 
@@ -101,6 +100,14 @@ export default class ContentRecordDAC implements IContentRecordDAC {
 
   // recordNewContent will record the new content creation in the content record
   public async recordNewContent(...data: IContentInfo[]): Promise<IDACResponse> {
+    const validSkylinks = data
+      .map(el => parseSkylink(el.skylink, {fromSubdomain: false}))
+      .filter(Boolean)
+    
+    if (validSkylinks.length !== data.length) {
+      return { submitted: false, error: "Not every entry contains a valid skylink. A skylink is only considered valid in the form '_AJuK4l9MD8EL0axpf76cucfPC9CIgYfoxDO4vCAFKs_MA' or 'sia://_AJuK4l9MD8EL0axpf76cucfPC9CIgYfoxDO4vCAFKs_MA'"}
+    }
+
     try {
       // purposefully not awaited
       this.handleNewEntries(EntryType.NEWCONTENT, ...data)
@@ -112,6 +119,14 @@ export default class ContentRecordDAC implements IContentRecordDAC {
 
   // recordInteraction will record a new interaction in the content record
   public async recordInteraction(...data: IContentInfo[]): Promise<IDACResponse> {
+    const validSkylinks = data
+      .map(el => parseSkylink(el.skylink, {fromSubdomain: false}))
+      .filter(Boolean)
+    
+    if (validSkylinks.length !== data.length) {
+      return { submitted: false, error: "Not every entry contains a valid skylink. A skylink is only considered valid in the form '_AJuK4l9MD8EL0axpf76cucfPC9CIgYfoxDO4vCAFKs_MA' or 'sia://_AJuK4l9MD8EL0axpf76cucfPC9CIgYfoxDO4vCAFKs_MA'"}
+    }
+
     try {
       // purposefully not awaited
       this.handleNewEntries(EntryType.INTERACTIONS, ...data)
