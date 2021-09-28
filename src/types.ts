@@ -35,8 +35,8 @@ export interface IPage<IEntry> {
   entries: IEntry[];
 }
 
-export interface IDictionary {
-  [key:string]: boolean
+export interface IDictionary<T> {
+  [key:string]: T
 }
 export interface IDACResponse {
   submitted: boolean;
