@@ -4,7 +4,8 @@
   "description": "",
   "main": "src/index.ts",
   "scripts": {
-    "build": "rm -r dist && cp -R html dist && npx webpack",
+    "build": "rm -r dist && cp -R html dist && npx webpack && ./generate_versions_file",
+    "deploy": "npm run build && RESOLVER_DATA_KEY=crqa node deploy.js",
     "lint": "npm run lint:tsc && npm run lint:eslint",
     "lint:eslint": "eslint --ext .ts src",
     "lint:tsc": "tsc --noemit",
@@ -20,6 +21,7 @@
     "skynet-js": "^4.0.17-beta"
   },
   "devDependencies": {
+    "@skynetlabs/skynet-nodejs": "^2.2.0",
     "@types/jest": "^26.0.22",
     "@types/node": "^14.14.37",
     "@typescript-eslint/eslint-plugin": "^4.21.0",
