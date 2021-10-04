@@ -21,7 +21,7 @@
     "skynet-js": "^4.0.17-beta"
   },
   "devDependencies": {
-    "@skynetlabs/skynet-nodejs": "^2.2.0",
+    "@skynetlabs/skynet-nodejs": "^2.3.0",
     "@types/jest": "^26.0.22",
     "@types/node": "^14.14.37",
     "@typescript-eslint/eslint-plugin": "^4.21.0",
