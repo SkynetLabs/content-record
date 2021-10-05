@@ -36,8 +36,7 @@ const client = new SkynetClient(PORTAL);
  * @returns - Returns the upload directory response.
  */
 async function pushDirectoryToSkynet(path) {
-  const response = await client.uploadDirectory(path, prepareUploadOptions());
-  return response;
+  return await client.uploadDirectory(path, prepareUploadOptions());
 }
 
 /**
