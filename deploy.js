@@ -56,9 +56,7 @@ async function publishSkylinkToResolverSkylink(skylink, resolverSeed, resolverDa
   await client.db.setDataLink(privateKey, dataKey, skylink);
 
   // Get the resolver skylink that represents the registry entry
-  const resolverSkylink = await client.registry.getEntryLink(publicKey, dataKey);
-
-  return resolverSkylink;
+  return await client.registry.getEntryLink(publicKey, dataKey);
 }
 
 /**
