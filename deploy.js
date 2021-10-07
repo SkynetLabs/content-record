@@ -80,7 +80,7 @@ async function deploy() {
     throw new Error("App deployment failed");
   }
 
-  // Get URL based off preferred portal
+  // Get URL based off preferred portal.
   const skylinkUrl = await client.getSkylinkUrl(skylink, { subdomain: true });
 
   console.log(`📡 App deployed to Skynet with skylink: ${skylink}`);
@@ -90,7 +90,7 @@ async function deploy() {
   // Call method to update resolver skylink.
   const resolverSkylink = await publishSkylinkToResolverSkylink(skylink, RESOLVER_SEED, RESOLVER_DATA_KEY);
 
-  // Get URL based off preferred portal
+  // Get URL based off preferred portal.
   resolverSkylinkUrl = await client.getSkylinkUrl(resolverSkylink, { subdomain: true });
 
   console.log(`📡 Resolver skylink updated: ${resolverSkylink}`);
@@ -98,7 +98,7 @@ async function deploy() {
   // Display final info.
   console.log("🚀 Deployment to Skynet complete!");
   console.log();
-  console.log(`Use the link${resolverSkylinkUrl && "s"} below to access your app:`);
+  console.log(`Use the links below to access your app:`);
   console.log(`   Immutable Skylink Url: ${`${skylinkUrl}`}`);
   console.log(`   Resolver Skylink Url: ${`${resolverSkylinkUrl}`}`);
   console.log();
