@@ -36,8 +36,7 @@ const client = new SkynetClient(PORTAL);
  * @returns - Returns the upload directory response.
  */
 async function pushDirectoryToSkynet(path) {
-  const response = await client.uploadDirectory(path, prepareUploadOptions());
-  return response;
+  return await client.uploadDirectory(path, prepareUploadOptions());
 }
 
 /**
@@ -57,9 +56,7 @@ async function publishSkylinkToResolverSkylink(skylink, resolverSeed, resolverDa
   await client.db.setDataLink(privateKey, dataKey, skylink);
 
   // Get the resolver skylink that represents the registry entry
-  const resolverSkylink = await client.registry.getEntryLink(publicKey, dataKey);
-
-  return resolverSkylink;
+  return await client.registry.getEntryLink(publicKey, dataKey);
 }
 
 /**
